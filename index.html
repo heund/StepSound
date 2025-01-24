@@ -10,7 +10,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="overlay">
+    <!-- Book Selection Carousel -->
+    <div id="carousel-view" class="view">
+        <div class="carousel">
+            <div class="carousel-track">
+                <!-- Books will be added here -->
+            </div>
+        </div>
+        <div class="carousel-info-container">
+            <div class="horizontal-lines"></div>
+            <div class="metadata">
+                <span>STEP BOOK → LIBRARY</span>
+                <span>H.EUND EXPERIMENT 24.</span>
+                <span>SWIPE TO BROWSE</span>
+                <span>VERSION → 1.0.0</span>
+            </div>
+            <div class="horizontal-lines"></div>
+        </div>
+    </div>
+
+    <!-- Step Counter View -->
+    <div id="stepcounter-view" class="view hidden">
+        <div id="overlay"></div>
+        <div class="hamburger-menu">☰</div>
+        <div class="book-title-marquee">
+            <div class="marquee-content">
+                Alice's Adventures in Wonderland by Lewis Carroll
+            </div>
+        </div>
         <div class="main-content">
             <div class="step-counter">
                 <div id="stepCount">0</div>
@@ -21,17 +48,23 @@
         <div class="info-container">
             <div class="horizontal-lines"></div>
             <div class="metadata">
-                <div class="info-row">STEP SOUND → EXPERIMENTAL APP</div>
+                <div class="info-row">Alice's Adventures in Wonderland - Lewis Carroll</div>
                 <div class="info-row">H.EUND EXPERIMENT 24.</div>
-                <div class="info-row">VERSION → 1.0.0</div>
+                <div class="info-row">STEP SOUND → EXPERIMENTAL APP
+                    </div>
                 <div class="info-row">FRAMEWORK → TONE.JS + P5.JS</div>
             </div>
             <div class="horizontal-lines"></div>
         </div>
     </div>
+
+    <div id="sketch-container"></div>
+
+    <script src="js/audioPlayer.js"></script>
     <script src="js/sound.js"></script>
     <script src="js/motion.js"></script>
     <script src="js/visuals.js"></script>
+    <script src="js/carousel.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

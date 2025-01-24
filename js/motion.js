@@ -1,85 +1,87 @@
 class MotionManager {
     constructor() {
         this.stepCount = 0;
-        this.lastUpdate = 0;
-        this.isTracking = false;
-        console.log('MotionManager created');
+        this.lastAccel = 0;
+        this.threshold = 1.1;
+        this.cooldown = false;
+        this.cooldownTime = 250; // ms
+        
+        this.stepDisplay = document.getElementById('stepCount');
+        this.startButton = document.getElementById('startButton');
+        
+        // Initialize audio player
+        window.audioPlayer.loadAudioBooks();
+        
+        this.setupEventListeners();
     }
-
-    async requestPermission() {
+    
+    setupEventListeners() {
+        this.startButton.addEventListener('click', () => this.requestMotionPermission());
+    }
+    
+    async requestMotionPermission() {
         if (typeof DeviceMotionEvent.requestPermission === 'function') {
             try {
-                console.log('Requesting motion permission...');
-                const permission = await DeviceMotionEvent.requestPermission();
-                console.log('Motion permission:', permission);
-                return permission === 'granted';
+                const permissionState = await DeviceMotionEvent.requestPermission();
+                if (permissionState === 'granted') {
+                    this.startTracking();
+                }
             } catch (error) {
                 console.error('Error requesting motion permission:', error);
-                return false;
             }
-        }
-        console.log('Motion permission not required for this device');
-        return true; // Non-iOS devices don't need permission
-    }
-
-    startTracking() {
-        if (this.isTracking) return;
-        
-        if ('ondevicemotion' in window) {
-            console.log('Starting motion tracking...');
-            window.addEventListener('devicemotion', this.handleMotion.bind(this));
-            this.isTracking = true;
-            console.log('Motion tracking started');
         } else {
-            console.error('Device motion not supported');
-            alert('Your device does not support motion detection');
+            this.startTracking();
         }
     }
-
-    stopTracking() {
-        if (!this.isTracking) return;
-        console.log('Stopping motion tracking...');
-        window.removeEventListener('devicemotion', this.handleMotion.bind(this));
-        this.isTracking = false;
-        console.log('Motion tracking stopped');
+    
+    startTracking() {
+        this.startButton.disabled = true;
+        window.addEventListener('devicemotion', (e) => this.handleMotion(e));
     }
-
+    
     handleMotion(event) {
-        const acceleration = event.acceleration;
-        if (!acceleration) {
-            console.warn('No acceleration data available');
-            return;
-        }
-
-        const now = Date.now();
-        // Debounce step detection to prevent multiple triggers
-        if (now - this.lastUpdate < 300) return; 
-
-        // Simple step detection using acceleration magnitude
-        const magnitude = Math.sqrt(
-            acceleration.x * acceleration.x +
-            acceleration.y * acceleration.y +
-            acceleration.z * acceleration.z
+        const accel = event.accelerationIncludingGravity;
+        if (!accel) return;
+        
+        const total = Math.sqrt(
+            Math.pow(accel.x || 0, 2) +
+            Math.pow(accel.y || 0, 2) +
+            Math.pow(accel.z || 0, 2)
         );
-
-        console.log('Motion magnitude:', magnitude.toFixed(2));
-
-        if (magnitude > 10) { // Threshold for step detection
-            this.stepCount++;
-            console.log('Step detected! Count:', this.stepCount);
-            document.getElementById('stepCount').textContent = this.stepCount;
-            
-            // Play sound for the step
-            soundManager.playStep();
-            
-            // Trigger visual effect
-            if (window.onStep) {
-                window.onStep();
-            }
-            
-            this.lastUpdate = now;
+        
+        if (this.detectStep(total)) {
+            this.onStep();
+        }
+        
+        this.lastAccel = total;
+    }
+    
+    detectStep(total) {
+        if (this.cooldown) return false;
+        
+        const delta = Math.abs(total - this.lastAccel);
+        if (delta > this.threshold) {
+            this.cooldown = true;
+            setTimeout(() => this.cooldown = false, this.cooldownTime);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    onStep() {
+        this.stepCount++;
+        this.stepDisplay.textContent = this.stepCount;
+        
+        // Trigger audio player
+        window.audioPlayer.onStep();
+        
+        // Trigger visual effect
+        if (typeof window.onStep === 'function') {
+            window.onStep();
         }
     }
 }
 
-const motionManager = new MotionManager();
+// Initialize motion manager
+window.motionManager = new MotionManager();

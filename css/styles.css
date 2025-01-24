@@ -1,3 +1,203 @@
+/* Base Styles */
+body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    font-family: 'Space Mono', monospace;
+    overflow: hidden;
+}
+
+.view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Carousel View */
+#carousel-view {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.carousel {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    touch-action: pan-x;
+    padding: 0 20px;
+    box-sizing: border-box;
+    /* Account for bottom description */
+    margin-bottom: calc(clamp(8px, 2vh, 15px) * 2 + clamp(6px, 1.5vh, 10px) * 2 + 11px);
+}
+
+.carousel-track {
+    display: flex;
+    gap: clamp(20px, 4vw, 40px);
+    transform: translateX(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: min(70vh, 800px);
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    height: 100%;
+    aspect-ratio: 3/4;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.carousel-item.active {
+    transform: scale(1);
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.1),
+        0 6px 6px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(0, 0, 0, 0.1);
+    filter: grayscale(0.1) contrast(1.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carousel-item:not(.active) {
+    opacity: 0.6;
+    filter: grayscale(0.3);
+}
+
+.carousel-item.active:hover {
+    transform: scale(1.02);
+}
+
+.carousel-item.active img {
+    box-shadow: 
+        0 20px 25px rgba(0, 0, 0, 0.15),
+        0 10px 10px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-info-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: clamp(8px, 2vh, 15px) 0;
+    pointer-events: auto;
+}
+
+.carousel-info-container .horizontal-lines {
+    height: clamp(6px, 1.5vh, 10px);
+    width: 100%;
+    background-image: repeating-linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0px,
+        rgba(255, 255, 255, 0.2) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    margin: clamp(4px, 1vh, 8px) 0;
+}
+
+.carousel-info-container .metadata {
+    margin: clamp(4px, 1vh, 8px) clamp(20px, 5vw, 40px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.carousel-info-container .metadata span {
+    flex: 1;
+    text-align: center;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .carousel-info-container .metadata {
+        font-size: 10px;
+        letter-spacing: 1px;
+        margin: clamp(4px, 1vh, 8px) 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel {
+        padding: 0 10px;
+        margin-bottom: calc(clamp(8px, 2vh, 15px) * 2 + clamp(6px, 1.5vh, 10px) * 2 + 10px);
+    }
+    
+    .carousel-track {
+        gap: 15px;
+        height: min(60vh, 600px);
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-track {
+        height: min(50vh, 400px);
+    }
+}
+
+/* Step Counter View */
+.hamburger-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    z-index: 1000;
+    cursor: pointer;
+    color: black;
+}
+
+.book-title-marquee {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 999;
+}
+
+.marquee-content {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -29,11 +229,7 @@ canvas {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    z-index: -1;
     pointer-events: none;
 }
 
@@ -138,18 +334,21 @@ canvas {
 }
 
 .metadata {
+    margin: clamp(4px, 1vh, 8px) clamp(20px, 5vw, 40px);
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: clamp(8px, 2vw, 16px);
-    padding: 0 clamp(12px, 3vw, 24px);
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    line-height: 1;
 }
 
-.info-row {
-    font-size: clamp(8px, 2vw, 11px);
-    letter-spacing: 1px;
-    opacity: 0.7;
+.metadata span {
+    flex: 1;
+    text-align: center;
     white-space: nowrap;
 }
 
@@ -179,4 +378,215 @@ canvas {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+/* Library Button */
+.library-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    font-family: 'Space Mono', monospace;
+    cursor: pointer;
+    z-index: 1000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.library-button:hover {
+    background: white;
+    color: black;
+    transform: scale(1.05);
+}
+
+/* Virtual Library Modal */
+.library-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 2000;
+    overflow-y: auto;
+}
+
+.library-content {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.library-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    border-bottom: 2px solid black;
+    padding-bottom: 20px;
+}
+
+.library-title {
+    font-size: clamp(24px, 5vw, 48px);
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.close-library {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-family: 'Space Mono', monospace;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 20px 0;
+}
+
+.book-card {
+    background: white;
+    border: 2px solid black;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.book-card.playing::before {
+    content: "NOW PLAYING";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #00ff00;
+    color: black;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    z-index: 2;
+}
+
+.book-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover .book-cover {
+    transform: scale(1.05);
+}
+
+.book-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover .book-info {
+    transform: translateY(0);
+}
+
+.book-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: 'Space Mono', monospace;
+    color: white;
+}
+
+.book-author {
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-family: 'Space Mono', monospace;
+    color: #ccc;
+}
+
+.book-progress {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #00ff00;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.library-metadata {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+.library-metadata .horizontal-lines {
+    width: 100%;
+    height: 1px;
+    background: white;
+    margin: 10px 0;
+}
+
+.library-metadata .metadata {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.library-metadata .info-row {
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .library-content {
+        padding: 20px;
+    }
+    
+    .books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    
+    .library-button {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
 }

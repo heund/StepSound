@@ -1,0 +1,35 @@
+{
+    "books": [
+        {
+            "title": "The Great Gatsby",
+            "author": "F. Scott Fitzgerald",
+            "cover": "audiobooks/gatsby.jpg",
+            "isMockup": true
+        },
+        {
+            "title": "Alice's Adventures in Wonderland",
+            "author": "Lewis Carroll",
+            "cover": "audiobooks/Alice.jpg",
+            "chapters": [
+                { "title": "Chapter 1", "path": "audiobooks/book1.mp3" },
+                { "title": "Chapter 2", "path": "audiobooks/book2.mp3" },
+                { "title": "Chapter 3", "path": "audiobooks/book3.mp3" },
+                { "title": "Chapter 4", "path": "audiobooks/book4.mp3" },
+                { "title": "Chapter 5", "path": "audiobooks/book5.mp3" },
+                { "title": "Chapter 6", "path": "audiobooks/book6.mp3" },
+                { "title": "Chapter 7", "path": "audiobooks/book7.mp3" },
+                { "title": "Chapter 8", "path": "audiobooks/book8.mp3" },
+                { "title": "Chapter 9", "path": "audiobooks/book9.mp3" },
+                { "title": "Chapter 10", "path": "audiobooks/book10.mp3" },
+                { "title": "Chapter 11", "path": "audiobooks/book11.mp3" },
+                { "title": "Chapter 12", "path": "audiobooks/book12.mp3" }
+            ]
+        },
+        {
+            "title": "Moby Dick",
+            "author": "Herman Melville",
+            "cover": "audiobooks/moby.jpg",
+            "isMockup": true
+        }
+    ]
+}
