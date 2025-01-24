@@ -72,6 +72,11 @@ class MotionManager {
             // Play sound for the step
             soundManager.playStep();
             
+            // Trigger visual effect
+            if (window.onStep) {
+                window.onStep();
+            }
+            
             this.lastUpdate = now;
         }
     }

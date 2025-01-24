@@ -2,31 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Step Sound</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div id="visualizer" class="visualizer">
-            <div class="step-counter">
-                <span id="stepCount">0</span>
-                <span class="label">steps</span>
-            </div>
-            <div class="motion-data">
-                <div id="motionVisual"></div>
-            </div>
+    <div id="overlay">
+        <div class="step-counter">
+            <div id="stepCount">0</div>
         </div>
-        <button id="startButton" class="start-button">Start Tracking</button>
+        
+        <div class="info-container">
+            <div class="horizontal-lines"></div>
+            <div class="metadata">
+                <div class="info-row">STEP SOUND → EXPERIMENTAL APP</div>
+                <div class="info-row">H.EUND EXPERIMENT 24.</div>
+                <div class="info-row">VERSION → 1.0.0</div>
+                <div class="info-row">FRAMEWORK → TONE.JS + P5.JS</div>
+            </div>
+            <div class="controls">
+                <button id="startButton">RUN</button>
+            </div>
+            <div class="horizontal-lines"></div>
+        </div>
     </div>
-
-    <!-- Sound libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-    
-    <!-- App scripts -->
-    <script src="js/motion.js"></script>
     <script src="js/sound.js"></script>
+    <script src="js/motion.js"></script>
     <script src="js/visuals.js"></script>
     <script src="js/main.js"></script>
 </body>
