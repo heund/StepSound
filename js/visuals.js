@@ -2,10 +2,11 @@ let particles = [];
 let noiseScale = 0.01;
 let noiseStrength = 1;
 let particleCount = 50;
-let stepImpact = 0;
 let lineSpacing = 15;
+
 let lines = [];
 let lineCount = 15; // Reduced number of lines to make each one thicker
+let stepImpact = 0;
 let targetRotation = 0;
 let currentRotation = 0;
 
@@ -44,8 +45,10 @@ class Line {
     }
 }
 
-function setup() {
-    createCanvas(windowWidth, windowHeight);
+// p5.js setup function
+window.setup = function() {
+    let canvas = createCanvas(windowWidth, windowHeight);
+    canvas.parent('overlay');
     background(255);
     
     // Create vertical lines
@@ -55,7 +58,8 @@ function setup() {
     }
 }
 
-function draw() {
+// p5.js draw function
+window.draw = function() {
     background(255);
     
     // Smooth rotation transition
@@ -73,7 +77,8 @@ function draw() {
     stepImpact *= 0.95;
 }
 
-function windowResized() {
+// p5.js windowResized function
+window.windowResized = function() {
     resizeCanvas(windowWidth, windowHeight);
     
     // Recreate lines for new width
