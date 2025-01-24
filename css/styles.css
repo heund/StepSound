@@ -60,10 +60,10 @@ body {
     transform: scale(0.95);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
-}
-
-.carousel-item.active {
-    transform: scale(1);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .carousel-item img {
@@ -77,6 +77,11 @@ body {
         0 0 0 1px rgba(0, 0, 0, 0.1);
     filter: grayscale(0.1) contrast(1.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.carousel-item.active {
+    transform: scale(1);
 }
 
 .carousel-item:not(.active) {

@@ -7,6 +7,8 @@ class BookCarousel {
         this.currentX = 0;
         this.isDragging = false;
         this.currentIndex = 0;
+        this.dragStartTime = 0;
+        this.dragDistance = 0;
 
         this.setupCarousel();
         this.addEventListeners();
@@ -31,13 +33,12 @@ class BookCarousel {
                 item.appendChild(img);
                 this.track.appendChild(item);
 
-                // Add click handler for Alice (index 1)
-                if (index === 1) {
-                    item.addEventListener('click', () => {
-                        console.log('Alice clicked'); // Debug log
+                // Add click handler for all items
+                item.addEventListener('click', (e) => {
+                    if (!this.isDragging && this.dragDistance < 5) {
                         this.selectBook(index);
-                    });
-                }
+                    }
+                });
             });
         } catch (error) {
             console.error('Error setting up carousel:', error);
@@ -48,10 +49,13 @@ class BookCarousel {
         // Touch events
         this.track.addEventListener('touchstart', (e) => {
             e.preventDefault();
+            this.dragStartTime = Date.now();
+            this.dragDistance = 0;
             this.startDrag(e.touches[0].clientX);
         });
         this.track.addEventListener('touchmove', (e) => {
             e.preventDefault();
+            this.dragDistance += Math.abs(e.touches[0].clientX - (this.startX + this.currentX));
             this.drag(e.touches[0].clientX);
         });
         this.track.addEventListener('touchend', () => this.endDrag());
@@ -59,11 +63,14 @@ class BookCarousel {
         // Mouse events
         this.track.addEventListener('mousedown', (e) => {
             e.preventDefault();
+            this.dragStartTime = Date.now();
+            this.dragDistance = 0;
             this.startDrag(e.clientX);
         });
         this.track.addEventListener('mousemove', (e) => {
             if (this.isDragging) {
                 e.preventDefault();
+                this.dragDistance += Math.abs(e.clientX - (this.startX + this.currentX));
                 this.drag(e.clientX);
             }
         });
@@ -113,7 +120,6 @@ class BookCarousel {
     }
 
     selectBook(index) {
-        console.log('Selecting book:', index); // Debug log
         if (index === 1) { // Alice
             this.carouselView.style.display = 'none';
             this.stepCounterView.style.display = 'block';
