@@ -9,6 +9,8 @@ class BookCarousel {
         this.currentIndex = 0;
         this.dragStartTime = 0;
         this.dragDistance = 0;
+        this.touchStartTime = 0;
+        this.lastTouchTime = 0;
 
         this.setupCarousel();
         this.addEventListeners();
@@ -33,12 +35,29 @@ class BookCarousel {
                 item.appendChild(img);
                 this.track.appendChild(item);
 
-                // Add click handler for all items
-                item.addEventListener('click', (e) => {
-                    if (!this.isDragging && this.dragDistance < 5) {
-                        this.selectBook(index);
-                    }
-                });
+                // Add click/touch handler for Alice (index 1)
+                if (index === 1) {
+                    // Touch events
+                    item.addEventListener('touchstart', (e) => {
+                        this.touchStartTime = Date.now();
+                        this.dragDistance = 0;
+                    }, { passive: true });
+
+                    item.addEventListener('touchend', (e) => {
+                        const touchDuration = Date.now() - this.touchStartTime;
+                        if (touchDuration < 200 && this.dragDistance < 10) {
+                            e.preventDefault();
+                            this.selectBook(index);
+                        }
+                    });
+
+                    // Mouse events
+                    item.addEventListener('click', (e) => {
+                        if (!this.isDragging && this.dragDistance < 10) {
+                            this.selectBook(index);
+                        }
+                    });
+                }
             });
         } catch (error) {
             console.error('Error setting up carousel:', error);
@@ -48,17 +67,26 @@ class BookCarousel {
     addEventListeners() {
         // Touch events
         this.track.addEventListener('touchstart', (e) => {
-            e.preventDefault();
+            this.touchStartTime = Date.now();
             this.dragStartTime = Date.now();
             this.dragDistance = 0;
             this.startDrag(e.touches[0].clientX);
-        });
+        }, { passive: true });
+
         this.track.addEventListener('touchmove', (e) => {
-            e.preventDefault();
             this.dragDistance += Math.abs(e.touches[0].clientX - (this.startX + this.currentX));
             this.drag(e.touches[0].clientX);
+            this.lastTouchTime = Date.now();
+        }, { passive: true });
+
+        this.track.addEventListener('touchend', () => {
+            const touchDuration = Date.now() - this.touchStartTime;
+            if (touchDuration < 200 && this.dragDistance < 10) {
+                // This was a tap, not a drag
+                return;
+            }
+            this.endDrag();
         });
-        this.track.addEventListener('touchend', () => this.endDrag());
 
         // Mouse events
         this.track.addEventListener('mousedown', (e) => {
@@ -67,6 +95,7 @@ class BookCarousel {
             this.dragDistance = 0;
             this.startDrag(e.clientX);
         });
+
         this.track.addEventListener('mousemove', (e) => {
             if (this.isDragging) {
                 e.preventDefault();
@@ -74,6 +103,7 @@ class BookCarousel {
                 this.drag(e.clientX);
             }
         });
+
         this.track.addEventListener('mouseup', () => this.endDrag());
         this.track.addEventListener('mouseleave', () => this.endDrag());
     }

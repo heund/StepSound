@@ -64,6 +64,7 @@ body {
     user-select: none;
     -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent;
+    touch-action: pan-x pinch-zoom;
 }
 
 .carousel-item img {
@@ -78,6 +79,7 @@ body {
     filter: grayscale(0.1) contrast(1.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
+    -webkit-user-drag: none;
 }
 
 .carousel-item.active {
