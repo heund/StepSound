@@ -133,4 +133,8 @@ class BookCarousel {
 // Initialize carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.carousel = new BookCarousel();
+    // Load audio books immediately
+    if (window.audioPlayer) {
+        window.audioPlayer.loadAudioBooks();
+    }
 });
