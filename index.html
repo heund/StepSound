@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Step Sound</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div id="visualizer" class="visualizer">
+            <div class="step-counter">
+                <span id="stepCount">0</span>
+                <span class="label">steps</span>
+            </div>
+            <div class="motion-data">
+                <div id="motionVisual"></div>
+            </div>
+        </div>
+        <button id="startButton" class="start-button">Start Tracking</button>
+    </div>
+
+    <!-- Sound libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    
+    <!-- App scripts -->
+    <script src="js/motion.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/visuals.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
