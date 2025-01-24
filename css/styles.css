@@ -12,6 +12,8 @@ body {
     font-family: 'Space Mono', monospace;
     color: white;
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 canvas {
@@ -31,23 +33,38 @@ canvas {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     pointer-events: none;
 }
 
-.step-counter {
-    font-size: 20vw;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    letter-spacing: -0.02em;
-    transform: scaleY(1.2);
-    mix-blend-mode: difference;
-    margin-bottom: 5vh;
+.main-content {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scaleY(1.2);
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(16px, 3vh, 30px);
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.step-counter {
+    font-size: clamp(120px, 45vw, 600px);
+    font-weight: 700;
+    line-height: 0.8;
+    text-align: center;
+    letter-spacing: -0.05em;
+    transform: scaleY(1.2);
+    mix-blend-mode: difference;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #stepCount {
@@ -55,21 +72,60 @@ canvas {
     font-variant-numeric: tabular-nums;
     position: relative;
     display: inline-block;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+#startButton {
+    font-size: clamp(10px, 2.5vw, 14px);
+    letter-spacing: 2px;
+    padding: clamp(8px, 2vw, 12px) clamp(20px, 4vw, 32px);
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    color: white;
+    font-family: 'Space Mono', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+    mix-blend-mode: difference;
+    position: relative;
+    z-index: 10;
+}
+
+#startButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    transform: scale(1.05);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+#startButton:disabled {
+    opacity: 0.3;
+    cursor: default;
+    transform: none;
 }
 
 .info-container {
     position: fixed;
-    bottom: 40px;
-    width: 90%;
-    max-width: 400px;
+    bottom: 0;
+    width: 100%;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
-    padding: 20px;
+    -webkit-backdrop-filter: blur(10px);
+    padding: clamp(8px, 2vh, 15px) 0;
     pointer-events: auto;
 }
 
 .horizontal-lines {
-    height: 15px;
+    height: clamp(6px, 1.5vh, 10px);
     width: 100%;
     background-image: repeating-linear-gradient(
         180deg,
@@ -78,50 +134,49 @@ canvas {
         transparent 1px,
         transparent 2px
     );
-    margin: 15px 0;
+    margin: clamp(4px, 1vh, 8px) 0;
 }
 
 .metadata {
-    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: clamp(8px, 2vw, 16px);
+    padding: 0 clamp(12px, 3vw, 24px);
 }
 
 .info-row {
-    font-size: 11px;
+    font-size: clamp(8px, 2vw, 11px);
     letter-spacing: 1px;
-    margin: 8px 0;
     opacity: 0.7;
+    white-space: nowrap;
 }
 
-.controls {
-    margin: 20px 0;
+/* Media Queries for specific device adjustments */
+@media (max-width: 480px) {
+    .metadata {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    
+    .info-row {
+        font-size: 9px;
+    }
 }
 
-#startButton {
-    width: 100%;
-    padding: 12px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+/* Ensure proper display on notched phones */
+@supports (padding: max(0px)) {
+    .info-container {
+        padding-bottom: max(env(safe-area-inset-bottom), 8px);
+    }
 }
 
-#startButton:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-#startButton:disabled {
-    opacity: 0.3;
-    cursor: default;
-}
-
-.step-display {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    letter-spacing: 2px;
+/* Prevent text selection */
+* {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

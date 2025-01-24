@@ -5,7 +5,7 @@ let particleCount = 50;
 let stepImpact = 0;
 let lineSpacing = 15;
 let lines = [];
-let lineCount = 30;
+let lineCount = 15; // Reduced number of lines to make each one thicker
 let targetRotation = 0;
 let currentRotation = 0;
 
@@ -17,7 +17,7 @@ class Line {
     }
 
     reset() {
-        this.height = random(windowHeight * 0.3, windowHeight * 0.8);
+        this.height = random(windowHeight * 0.4, windowHeight * 0.9); // Increased minimum height
         this.y = (windowHeight - this.height) / 2;
         this.targetWidth = this.width;
         this.currentWidth = this.width;
@@ -33,13 +33,14 @@ class Line {
         this.phase += this.speed;
         
         // Calculate dynamic height based on step impact
-        let dynamicHeight = this.height * (1 + sin(this.phase) * 0.1);
+        let dynamicHeight = this.height * (1 + sin(this.phase) * 0.15); // Increased movement amplitude
         dynamicHeight *= (1 + stepImpact * 0.5);
         
-        // Draw the line
+        // Draw the line with minimum width
         fill(0);
         noStroke();
-        rect(this.x, this.y, this.currentWidth, dynamicHeight);
+        let minWidth = max(this.currentWidth * 0.8, 30); // Ensure minimum width of 30px
+        rect(this.x, this.y, minWidth, dynamicHeight);
     }
 }
 
@@ -93,9 +94,9 @@ function onStep() {
     // Increase step impact
     stepImpact = 1;
     
-    // Randomly adjust line widths
+    // Randomly adjust line widths with larger variations
     lines.forEach(line => {
-        line.targetWidth = (windowWidth / lineCount) * random(0.5, 1.5);
+        line.targetWidth = (windowWidth / lineCount) * random(0.8, 2.0); // Increased width variation
     });
     
     // Occasionally reset some lines
